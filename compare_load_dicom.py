@@ -22,9 +22,6 @@ def show_time(func):
         return result
     return _deco
 
-
-
-
 # decompress dicom series
 def decompress(img_dir):
     for dcm in os.listdir(img_dir):
@@ -32,11 +29,13 @@ def decompress(img_dir):
         cmd = 'gdcmconv -w ' + dcm + ' ' + dcm
         os.system(cmd)
 
-
-
-
 @show_time
 def read_dcm_by_itk(patient_dir):
+    '''
+    using ITK to load dicom series after Hu transform
+    :param patient_dir: directory. e.g dicom_dir
+    :return: image nd narray [N*H*W]
+    '''
     pixel_type = itk.ctype('signed short')
     internal_image_type = itk.Image[pixel_type, 3]
     reader = itk.ImageSeriesReader[internal_image_type].New()
@@ -57,8 +56,6 @@ def read_dcm_by_itk(patient_dir):
     nd_array=itk.GetArrayFromImage(im)
     return nd_array
     
-
-
 @show_time   
 def read_dcm_by_simple_itk(patient_dir):
     '''
@@ -117,13 +114,10 @@ def read_dcm_by_dicom(patient_dir):
     #print image_volume_array.shape
     return image_volume_array
       
-
-
-
 if __name__=='__main__':
     # compare test time
 
-	patient_dir='/home/tx-eva-cc/Documents/CTA/CTA/fuwai/CT/1.2.528.1.1001.200.10.1229.4269.1.20170908045918134/SDY00000/SRS00002'
+	patient_dir='CT/SRS00002'
 
 	dicom_img_array = read_dcm_by_dicom(patient_dir)  # read according to filename orders, usually read from head to foot.
 	sitk_img_array= read_dcm_by_simple_itk(patient_dir) # read direction: from foot to head
