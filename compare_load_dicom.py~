@@ -117,7 +117,7 @@ def read_dcm_by_dicom(patient_dir):
 if __name__=='__main__':
     # compare test time
 
-	patient_dir='CT/SRS00002'
+	patient_dir='CT/1.2.528.1.1001.200.10.1229.4269.1.20170908045918134/SDY00000/SRS00002'
 
 	dicom_img_array = read_dcm_by_dicom(patient_dir)  # read according to filename orders, usually read from head to foot.
 	sitk_img_array= read_dcm_by_simple_itk(patient_dir) # read direction: from foot to head
