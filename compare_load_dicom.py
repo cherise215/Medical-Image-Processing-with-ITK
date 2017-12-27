@@ -101,7 +101,7 @@ def read_dcm_by_dicom(patient_dir):
     try:
         rescale_slope = dcm_list[0].RescaleSlope
         rescale_intercept = dcm_list[0].RescaleIntercept
-    except NotImplementedError:
+    except NotImplementedError: 
         raise
     
     if not rescale_slope is 1:
@@ -113,7 +113,7 @@ def read_dcm_by_dicom(patient_dir):
    
     #print image_volume_array.shape
     return image_volume_array
-      
+       
 if __name__=='__main__':
     # compare test time
 
