@@ -1,0 +1,6 @@
+
+example/
+*.iml
+*.xml
+.idea/
+Segmentation
