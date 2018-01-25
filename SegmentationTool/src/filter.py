@@ -1,6 +1,6 @@
 import numpy as np
 import SimpleITK as sitk
-
+import cv2
 
 
 def adaptive_thresh(img, percentage=98):
@@ -41,3 +41,20 @@ def close_boundary(mask):
     # Remove any label pixel not connected to the boarder
     mask = sitk.BinaryGrindPeak(boundary)
     return mask
+
+def CLAHE(image,clipLimit=2.0,tileGridSize=(8,8)):
+    '''
+    input 2d array (M,N) M*N image
+    return contrast image
+    :param image: 2D image (nd array)
+    :return:
+    '''
+    clahe = cv2.createCLAHE(clipLimit=clipLimit,tileGridSize=tileGridSize)
+    cl_image=clahe.apply(image)
+    return cl_image
+
+
+if  __name__ == '__main__':
+    import matplotlib.pyplot as plt
+
+

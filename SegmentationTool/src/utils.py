@@ -5,6 +5,7 @@ import time
 import glob
 import dicom
 import numpy as np
+import xml.etree.cElementTree as ET
 
 
 # use decorator to calculate func time
@@ -39,7 +40,7 @@ def read_dcm_by_simple_itk(patient_dir, window_center=300, window_width=800):
 
 def read_dcm_by_pydicom(patient_dir, head_to_foot=False):
     '''
-    using pydicom to read dicom and transfer it to simple itk image object
+    using pydicom to read dicom series and transfer it to simple itk image object
     :param patient_dir: dicom image
     :return:simple itk image
     '''
@@ -88,6 +89,27 @@ def read_dcm_by_pydicom(patient_dir, head_to_foot=False):
     del resLst, npArr
     return resSITK
 
+
+def read_xml(xml_path,exclude_names=None):
+    '''
+    read xml and return a list of boxes
+    :param xml_path: full path of xml
+    :return: a list of boxes
+    '''
+    tree = ET.parse(xml_path)
+    objs = tree.findall('object')
+    box_list = []
+    for ix, obj in enumerate(objs):
+        name = obj.find('name').text
+        if exclude_names is None or name not in exclude_names:
+            bbox = obj.find('bndbox')
+            x1 = int(bbox.find('xmin').text)
+            y1 = int(bbox.find('ymin').text)
+            x2 = int(bbox.find('xmax').text)
+            y2 = int(bbox.find('ymax').text)
+            box = [x1, y1, x2, y2,name]
+            box_list.append(box)
+    return box_list
 
 def save_files(image, save_dir=None, file_nameprefix=None, ext='.jpg'):
     '''

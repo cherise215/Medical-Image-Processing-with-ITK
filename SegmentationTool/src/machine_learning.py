@@ -1,10 +1,10 @@
 ###cluster.py
-#导入相应的包
 import scipy
 import scipy.cluster.hierarchy as sch
 from scipy.cluster.vq import vq,kmeans,whiten
 import numpy as np
 import matplotlib.pylab as plt
+from sklearn.decomposition import PCA
 
 
 def  kmeans_with_hierachical_clustering(points):
@@ -25,9 +25,14 @@ def  kmeans_with_hierachical_clustering(points):
     data=whiten(points)
     centroid=kmeans(data,max(cluster))[0]
 
-    #使用vq函数根据聚类中心对所有数据进行分类,vq的输出也是两维的,[0]表示的是所有数据的label
     label=vq(data,centroid)[0]
 
     print "Final clustering by k-means:\n",label
 
     return  label
+
+
+def pca_decompostion(data,n_components,if_copy=True,if_whiten=False):
+    pca=PCA(n_components=n_components, copy=if_copy, whiten=if_whiten)
+    newData = pca.fit_transform(data)
+    return  newData
