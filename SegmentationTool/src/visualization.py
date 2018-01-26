@@ -19,3 +19,5 @@ def plot_3d(image, threshold=-300):
     ax.set_ylim(0, p.shape[1])
     ax.set_zlim(0, p.shape[2])
     plt.show()
+
+
