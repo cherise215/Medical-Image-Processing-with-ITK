@@ -1,5 +1,6 @@
 import SimpleITK as sitk
 
+from utils import show_time
 def chan_vess_segmentation(image):
     '''
     input sitk image type 3D series
@@ -21,6 +22,7 @@ def chan_vess_segmentation(image):
     mask= sitk.BinaryThreshold(result, 1e-7, 1e7)
     return mask
 
+@show_time
 def otsu_segmentation(image,num_bins=2,valley_emphasis=False):
     '''
 
@@ -66,10 +68,10 @@ def region_grow_by_neighborhood(image,seed_list,radius=5,lower_thresh=0,upper_th
 
     return mask
 
-def  region_grow_implicit(image,seed_list,lower_thresh,upper_thresh):
-    seg = sitk.BinaryThreshold(image, lowerThreshold=lower_thresh,
-                               upperThreshold=upper_thresh, insideValue=1, outsideValue=0)
-    seg = sitk.BinaryDilate(seg, 2)
+def  region_grow_implicit(seg,seed_list,lower_thresh,upper_thresh):
+    # seg = sitk.BinaryThreshold(image, lowerThreshold=lower_thresh,
+    #                            upperThreshold=upper_thresh, insideValue=1, outsideValue=0)
+    # seg = sitk.BinaryDilate(seg, 2)
     seg_implicit_thresholds = sitk.ConfidenceConnected(seg, seedList=seed_list,
                                                        numberOfIterations=0,
                                                        multiplier=5,
@@ -81,9 +83,9 @@ def  region_grow_explicit(image,seed_list,lower_thresh,upper_thresh):
     seg_explicit_thresholds = sitk.ConnectedThreshold(image, seedList=seed_list, lower=lower_thresh, upper=upper_thresh)
 
     #closing
-    mask=sitk.BinaryErode(sitk.BinaryDilate(seg_explicit_thresholds, 5), 5)
+    #mask=sitk.BinaryErode(sitk.BinaryDilate(seg_explicit_thresholds, 5), 5)
 
-    return mask
+    return seg_explicit_thresholds
 
 import numpy as np
 from scipy.ndimage import distance_transform_edt as distance
@@ -258,7 +260,7 @@ def chan_vese(image, mu=0.25, lambda1=1.0, lambda2=1.0, tol=1e-3, max_iter=500,
               dt=0.5, init_level_set='checkerboard',
               extended_output=False):
     """Chan-Vese segmentation algorithm.
-
+       only for grayscale images.
     Active contour model by evolving a level set. Can be used to
     segment objects without clearly defined boundaries.
 

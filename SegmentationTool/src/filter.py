@@ -24,7 +24,7 @@ def adaptive_thresh(img, percentage=98):
     return a
 
 
-def  smooth_image(sitk_im_series,variance=0.5):
+def smooth_image(sitk_im_series,variance=0.5):
     '''
     3D sitk image
     :param sitk_im_series:
@@ -35,6 +35,12 @@ def  smooth_image(sitk_im_series,variance=0.5):
     gaussian.SetVariance(variance)
     gaussian_im = gaussian.Execute(sitk_im_series)
     return gaussian_im
+
+def curvature_flow_smooth(sitk_im_series,time_step=0.125,number_of_iterations=5):
+    img_smooth = sitk.CurvatureFlow(image1=sitk_im_series,
+                                          timeStep=time_step,
+                                          numberOfIterations=number_of_iterations)
+    return img_smooth
 
 def blur_image(sitk_im_series):
     '''
@@ -62,6 +68,7 @@ def close_boundary(mask):
 
 def CLAHE(image,clipLimit=2.0,tileGridSize=(8,8)):
     '''
+    adaptive histogram equalization
     locally contrast enhancement based on histogram equalization
     input 2D array (M,N) M*N image
     return contrast image
@@ -72,6 +79,10 @@ def CLAHE(image,clipLimit=2.0,tileGridSize=(8,8)):
     cl_image=clahe.apply(image)
     return cl_image
 
+def equal_hist(image):
+    from skimage.exposure import equalize_hist
+    equalized_image = equalize_hist(image)
+    return  equalized_image
 
 def frangi_enhancement(image,scale_range=(1,10), scale_step=2,beta1=0.5,beta2=15,black_ridges=False):
     '''

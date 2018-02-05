@@ -19,7 +19,7 @@ if __name__ == '__main__':
     fd,hog_image=get_hog_feature(image)
     print hog_image.shape
     import numpy as np
-    print np.sqrt(fd.shape[0])
+    #print np.sqrt(fd.shape[0])
     #visualize
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4), sharex=True, sharey=True)
 

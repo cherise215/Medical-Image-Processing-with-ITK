@@ -35,4 +35,4 @@ def  kmeans_with_hierachical_clustering(points):
 def pca_decompostion(data,n_components,if_copy=True,if_whiten=False):
     pca=PCA(n_components=n_components, copy=if_copy, whiten=if_whiten)
     newData = pca.fit_transform(data)
-    return  newData
+    return  newData,pca

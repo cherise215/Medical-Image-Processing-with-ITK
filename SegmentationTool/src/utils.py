@@ -90,7 +90,7 @@ def read_dcm_by_pydicom(patient_dir, head_to_foot=False):
     return resSITK
 
 
-def read_xml(xml_path,exclude_names=None):
+def read_xml(xml_path,exclude_names=None,include_names=None):
     '''
     read xml and return a list of boxes
     :param xml_path: full path of xml
@@ -101,7 +101,7 @@ def read_xml(xml_path,exclude_names=None):
     box_list = []
     for ix, obj in enumerate(objs):
         name = obj.find('name').text
-        if exclude_names is None or name not in exclude_names:
+        if exclude_names is None or name not in exclude_names or (include_names is not None and name in include_names):
             bbox = obj.find('bndbox')
             x1 = int(bbox.find('xmin').text)
             y1 = int(bbox.find('ymin').text)
