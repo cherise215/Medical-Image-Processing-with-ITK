@@ -1,5 +1,7 @@
 # Example of Using ITK
 
+for simpleITK, please look into sub repository Segmentation Tool
+
 ## Install 
 -Stable Version:
 

@@ -17,7 +17,7 @@ if __name__ == '__main__':
     dcm=dicom.read_file('/mnt/data2/FW_Coronary/2017_12_26_houzhihui_29/dcm/11698641_BestDiast70%/BJFW11698641S5_001.dcm')
     image=dcm.pixel_array * dcm.RescaleSlope + dcm.RescaleIntercept
     fd,hog_image=get_hog_feature(image)
-    print hog_image.shape
+    print (hog_image.shape)
     import numpy as np
     #print np.sqrt(fd.shape[0])
     #visualize

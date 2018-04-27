@@ -3,9 +3,10 @@ import SimpleITK as sitk
 import cv2
 import time
 import glob
-import dicom
+import pydicom
 import numpy as np
 import xml.etree.cElementTree as ET
+from six import string_types
 
 
 # use decorator to calculate func time
@@ -15,7 +16,7 @@ def show_time(func):
         result = func(*args, **kwargs)
         et = time.clock()
         delta = et - st
-        print 'call %s() used %fs' % (func.__name__, delta)
+        print ('call %s() used %fs' % (func.__name__, delta))
         return result
 
     return _deco
@@ -45,7 +46,7 @@ def read_dcm_by_pydicom(patient_dir, head_to_foot=False):
     :return:simple itk image
     '''
     assert os.path.isdir(patient_dir), 'input %s must be a valid directory' %patient_dir
-    if isinstance(patient_dir, basestring):
+    if isinstance(patient_dir,string_types):
         lst = glob.glob(patient_dir + "/*")
     else:
         lst = patient_dir
@@ -182,5 +183,5 @@ def compose_image(img1, img2):
 if __name__ == '__main__':
     patient_dir = '/dcm/11698641_BestDiast70%'
     img=read_dcm_by_pydicom(patient_dir)
-    print img.GetSize()
+    print (img.GetSize())
 

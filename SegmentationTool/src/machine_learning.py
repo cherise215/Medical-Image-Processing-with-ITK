@@ -19,7 +19,8 @@ def  kmeans_with_hierachical_clustering(points):
     Z=sch.linkage(disMat,method='average')
     cluster= sch.fcluster(Z, t=1, criterion='inconsistent')
 
-    print "Original cluster by hierarchy clustering:\n",cluster
+    print ("Original cluster by hierarchy clustering:\n ")
+    print (cluster)
 
     #2. k-means
     data=whiten(points)
@@ -27,7 +28,7 @@ def  kmeans_with_hierachical_clustering(points):
 
     label=vq(data,centroid)[0]
 
-    print "Final clustering by k-means:\n",label
+    print( "Final clustering by k-means:\n",label)
 
     return  label
 

@@ -2,7 +2,7 @@ import numpy as np
 import SimpleITK as sitk
 
 
-def resample_by_spacing(im, new_spacing, interpolator=sitk.sitkLinear):
+def resample_by_spacing(im, new_spacing, interpolator=sitk.sitkLinear, keep_z_spacing=False):
     '''
     resample by image spacing
     :param im: sitk image
@@ -10,12 +10,16 @@ def resample_by_spacing(im, new_spacing, interpolator=sitk.sitkLinear):
     :param interpolator: sitk.sitkLinear, sitk.NearestNeighbor
     :return:
     '''
-    scaling = np.array(new_spacing) / np.array(im.GetSpacing())
-    new_size = (np.array(im.GetSize()) / scaling).astype("int")
+
+    scaling = np.array(new_spacing) / (1.0 * (np.array(im.GetSpacing())))
+    new_size = np.round((np.array(im.GetSize()) / scaling)).astype("int").tolist()  # adapt to list in order to support python3 environment
+    if keep_z_spacing:
+        if len(im.GetSize())>2:
+            origin_z = im.GetSize()[2]
+            new_size[2] = origin_z
     transform = sitk.AffineTransform(3)
     transform.SetCenter(im.GetOrigin())
     return sitk.Resample(im, new_size, transform, interpolator, im.GetOrigin(), new_spacing, im.GetDirection())
-
 
 def resample_by_ref(im, refim, interpolator=sitk.sitkLinear):
 

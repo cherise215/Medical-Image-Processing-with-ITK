@@ -18,7 +18,7 @@ def show_time(func):
         result=func(*args, **kwargs)
         et = time.clock()
         delta = et - st
-        print 'call %s() used %fs' % (func.__name__, delta)
+        print ('call %s() used %fs' % (func.__name__, delta))
         return result
     return _deco
 

@@ -27,7 +27,7 @@ def AO_cricle_detection(edge_image,minRadius=10,maxRadius=40):
     circles = cv2.HoughCircles(edge_image,cv2.HOUGH_GRADIENT,4, 260, param1=30, param2=65, minRadius=minRadius, maxRadius=maxRadius)
     new_circles = None
     if circles is not None:
-        print 'success'
+        print ('success')
         new_circles = []
         # print 'success'
         # Convert the (x,y) coordinate and radius of the circles
@@ -35,7 +35,7 @@ def AO_cricle_detection(edge_image,minRadius=10,maxRadius=40):
         # Loop over the  (x,y) coordinate and radius of the circles
         for (x, y, r) in circles:
                 if edge_image[y,x]>0 and x<y and  x<200:# aota in the left upper domain,roi center must be bright
-                    print x,y
+                    print (x,y)
                     new_circles.append((x, y, r))
                     cv2.circle(edge_image, (x, y), r, (100, 255, 0), 4)
     return edge_image,new_circles
@@ -50,7 +50,7 @@ def hough_cricle_detection(edge_image,minRadius=10,maxRadius=40):
     circles = cv2.HoughCircles(edge_image,cv2.HOUGH_GRADIENT,4, 260, param1=30, param2=65, minRadius=minRadius, maxRadius=maxRadius)
     new_circles = None
     if circles is not None:
-        print 'success'
+        print ('success')
         new_circles = []
         # print 'success'
         # Convert the (x,y) coordinate and radius of the circles
@@ -60,6 +60,7 @@ def hough_cricle_detection(edge_image,minRadius=10,maxRadius=40):
             new_circles.append((x, y, r))
             cv2.circle(edge_image, (x, y), r, (100, 255, 0), 4)
     return edge_image,new_circles
+
 def template_matching(img,template,method,if_draw=False):
     method=cv2.TM_CCOEFF_NORMED
     img=np.uint8(img).copy()
